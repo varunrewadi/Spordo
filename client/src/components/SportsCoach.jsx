@@ -6,7 +6,6 @@ import { drawConnectors, drawLandmarks } from "@mediapipe/drawing_utils";
 const SportsCoach = () => {
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
-  const [feedback, setFeedback] = useState("Waiting for movement...");
   const [sport, setSport] = useState("basketball");
 
   // Native Web Speech API for TTS
@@ -17,49 +16,6 @@ const SportsCoach = () => {
       utterance.pitch = 1; // adjust pitch
       speechSynthesis.cancel(); // stop previous speech if still running
       speechSynthesis.speak(utterance);
-    }
-  };
-
-  // Rule modules for different sports
-  const checkPose = (landmarks) => {
-    if (!landmarks) return;
-
-    let message = "";
-
-    if (sport === "basketball") {
-      // Example: wrist (15) vs elbow (13)
-      const elbowY = landmarks[13].y;
-      const wristY = landmarks[15].y;
-      if (wristY < elbowY) {
-        message = "Good shot form! Wrist above elbow.";
-      } else {
-        message = "Raise your wrist above your elbow for better form.";
-      }
-    }
-
-    if (sport === "tennis") {
-      const shoulderY = landmarks[11].y;
-      const wristY = landmarks[15].y;
-      if (wristY < shoulderY) {
-        message = "Nice racket swing motion!";
-      } else {
-        message = "Lift your arm higher for a stronger swing.";
-      }
-    }
-
-    if (sport === "fitness") {
-      const hipY = landmarks[23].y;
-      const kneeY = landmarks[25].y;
-      if (hipY > kneeY) {
-        message = "Good squat depth!";
-      } else {
-        message = "Go lower to complete your squat.";
-      }
-    }
-
-    if (message) {
-      setFeedback(message);
-      speak(message);
     }
   };
 
@@ -108,8 +64,6 @@ const SportsCoach = () => {
           color: "#FF0000",
           lineWidth: 2,
         });
-
-        checkPose(results.poseLandmarks);
       }
       canvasCtx.restore();
     });
@@ -154,9 +108,7 @@ const SportsCoach = () => {
           height="480"
           className="rounded-2xl shadow-lg"
         />
-        <div className="absolute bottom-2 left-2 bg-black/60 text-white px-3 py-1 rounded-xl">
-          {feedback}
-        </div>
+        {/* ...existing code... (removed feedback display) */}
       </div>
     </div>
   );
