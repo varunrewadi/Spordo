@@ -1,7 +1,10 @@
+import SportsCoach from "./components/SportsCoach";
 function App() {
   return (
     <>
-      <h1>Vite + React</h1>
+      <div className="min-h-screen bg-gray-900 text-white flex items-center justify-center">
+        <SportsCoach />
+      </div>
     </>
   );
 }
