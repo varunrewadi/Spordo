@@ -1,12 +1,17 @@
-import SportsCoach from "./components/SportsCoach";
-function App() {
+import { Outlet } from "react-router-dom";
+import Navbar from "./components/Navbar";
+import ScrollToTop from "./components/ScrollToTop";
+
+import "./index.css";
+
+export default function App() {
   return (
-    <>
-      <div className="min-h-screen bg-gray-900 text-white flex items-center justify-center">
-        <SportsCoach />
-      </div>
-    </>
+    <div className="min-h-screen flex flex-col">
+      <ScrollToTop />
+      <Navbar />
+      <main className="flex-1 pt-20">
+        <Outlet />
+      </main>
+    </div>
   );
 }
-
-export default App;
