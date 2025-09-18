@@ -11,7 +11,7 @@ export default function Navbar() {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="fixed top-0 left-0 w-full z-50 transition-all duration-300 bg-black border-b border-white/10">
+    <header className="sticky top-0 left-0 w-full transition-all duration-300 bg-black border-b border-white/10">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex h-20 items-center justify-between">
           <Link to="/" className="flex items-center" aria-label="SPORDO home">
@@ -105,14 +105,14 @@ export default function Navbar() {
                       className="flex items-center"
                       onClick={() => setOpen(false)}
                     >
-                      <span className="text-2xl font-bold text-white">
-                        SPORDO
-                      </span>
                       <img
                         src={logo}
                         alt="SPORDO logo"
                         className="h-10 w-auto ml-2 filter invert"
                       />
+                      <span className="text-2xl font-bold text-white">
+                        SPORDO
+                      </span>
                     </Link>
                     <button
                       className="p-2 rounded-md hover:bg-white/10"

@@ -8,7 +8,7 @@ const Home = () => {
   return (
     <>
       <Navbar />
-      <section className="w-full h-screen flex items-center justify-center px-8 md:pt-0 bg-background">
+      <section className="w-full min-h-screen flex items-start justify-center px-8 py-18 bg-background">
         <div className="grid grid-cols-1 md:grid-cols-2 items-center gap-8 max-w-6xl mx-auto w-full">
           <div>
             <span className="inline-block mb-4 text-xs md:text-sm text-primary font-medium border border-dotted border-primary rounded-full px-3 py-1">
