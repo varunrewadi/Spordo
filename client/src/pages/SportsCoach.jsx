@@ -23,7 +23,7 @@ import {
 const SportsCoach = () => {
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
-  const [sport, setSport] = useState("basketball");
+  const [sport, setSport] = useState("cricket");
   const [cameraActive, setCameraActive] = useState(false);
   const [feedback, setFeedback] = useState("");
   const ws = useRef(null);
@@ -163,8 +163,8 @@ const SportsCoach = () => {
                   <SelectValue placeholder="Select a sport" />
                 </SelectTrigger>
                 <SelectContent>
+                  <SelectItem value="cricket">Cricket</SelectItem>
                   <SelectItem value="basketball">Basketball</SelectItem>
-                  <SelectItem value="tennis">Tennis</SelectItem>
                   <SelectItem value="fitness">Fitness</SelectItem>
                 </SelectContent>
               </Select>

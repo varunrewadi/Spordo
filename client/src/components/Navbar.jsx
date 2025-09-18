@@ -4,12 +4,8 @@ import { Dialog, Transition } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import logo from "/logo/logo.png";
 
-const contactItem = { to: "/contact", label: "Contact" };
-const navItems = [
-  { to: "/", label: "Home" },
-  { to: "/sports-coach", label: "Sports Coach" },
-  { to: "/dashboard", label: "Dashboard" },
-];
+const contactItem = { to: "/LogIn", label: "LogIn" };
+const navItems = [{ to: "/dashboard", label: "Dashboard" }];
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
