@@ -19,12 +19,12 @@ export default function Navbar() {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex h-20 items-center justify-between">
           <Link to="/" className="flex items-center" aria-label="SPORDO home">
-            <span className="text-2xl font-bold text-white">SPORDO</span>
             <img
               src={logo}
               alt="SPORDO logo"
               className="h-12 w-auto filter invert"
             />
+            <span className="text-2xl font-bold text-white">SPORDO</span>
           </Link>
           <nav
             className="hidden md:flex items-center gap-5"
@@ -60,7 +60,7 @@ export default function Navbar() {
             <NavLink
               to={contactItem.to}
               className={({ isActive }) =>
-                `rounded-md text-sm font-body font-bold uppercase tracking-wide transition-all duration-200 bg-indigo-600 text-white px-4 py-2 focus:outline-none focus-visible:ring-1 focus-visible:ring-white/70 ml-2 ${
+                `rounded-md text-sm font-body font-bold uppercase tracking-wide transition-all duration-200 bg-blue-800 text-white px-4 py-2 focus:outline-none focus-visible:ring-1 focus-visible:ring-white/70 ml-2 ${
                   isActive ? "ring-2 ring-white/20" : ""
                 }`
               }
@@ -165,7 +165,7 @@ export default function Navbar() {
                       to={contactItem.to}
                       onClick={() => setOpen(false)}
                       className={({ isActive }) =>
-                        `block px-3 py-3 mt-4 rounded-md text-sm font-body font-medium uppercase tracking-wide transition-colors bg-indigo-600 text-white focus:outline-none focus-visible:ring-1 focus-visible:ring-white/70 ${
+                        `block px-3 py-3 mt-4 rounded-md text-sm font-body font-medium uppercase tracking-wide transition-colors bg-blue-800  text-white focus:outline-none focus-visible:ring-1 focus-visible:ring-white/70 ${
                           isActive ? "ring-2 ring-white/20" : ""
                         }`
                       }

@@ -1,7 +1,24 @@
+import { AppSidebar } from "../components/app-sidebar";
+import { SiteHeader } from "../components/site-header";
+import { SidebarInset, SidebarProvider } from "../components/ui/sidebar";
 import { useEffect, useRef, useState } from "react";
 import { Pose } from "@mediapipe/pose";
 import { Camera } from "@mediapipe/camera_utils";
 import { drawConnectors, drawLandmarks } from "@mediapipe/drawing_utils";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "../components/ui/card";
+import { Button } from "../components/ui/button";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../components/ui/select";
 
 const SportsCoach = () => {
   const videoRef = useRef(null);
@@ -50,6 +67,7 @@ const SportsCoach = () => {
     });
 
     pose.onResults((results) => {
+      if (!canvasRef.current) return;
       const canvasCtx = canvasRef.current.getContext("2d");
       canvasCtx.save();
       canvasCtx.clearRect(
@@ -88,15 +106,17 @@ const SportsCoach = () => {
     if (cameraActive && videoRef.current) {
       camera = new Camera(videoRef.current, {
         onFrame: async () => {
-          await pose.send({ image: videoRef.current });
-          if (ws.current && ws.current.readyState === WebSocket.OPEN) {
-            const canvas = canvasRef.current;
-            // Send a compressed JPEG image as a Base64 string
-            ws.current.send(canvas.toDataURL("image/jpeg", 0.7));
+          if (videoRef.current) {
+            await pose.send({ image: videoRef.current });
+            if (ws.current && ws.current.readyState === WebSocket.OPEN) {
+              const canvas = canvasRef.current;
+              // Send a compressed JPEG image as a Base64 string
+              ws.current.send(canvas.toDataURL("image/jpeg", 0.7));
+            }
           }
         },
-        width: 640,
-        height: 480,
+        width: 1280,
+        height: 720,
       });
       camera.start();
     } else {
@@ -126,47 +146,54 @@ const SportsCoach = () => {
   }, [sport, cameraActive]);
 
   return (
-    <div className="flex flex-col items-center p-4 space-y-4">
-      <h1 className="text-2xl font-bold">SPORDO - Sports Companion</h1>
-
-      {/* Sport Selector */}
-      <select
-        value={sport}
-        onChange={(e) => setSport(e.target.value)}
-        className="p-2 rounded-lg border text-black"
-      >
-        <option value="basketball">Basketball</option>
-        <option value="tennis">Tennis</option>
-        <option value="fitness">Fitness</option>
-      </select>
-
-      <button
-        onClick={() => setCameraActive(!cameraActive)}
-        className="p-2 rounded-lg border bg-blue-500 text-white"
-      >
-        {cameraActive ? "Turn Off Camera" : "Turn On Camera"}
-      </button>
-
-      {/* Video + Canvas */}
-      <div className="relative">
-        <video
-          ref={videoRef}
-          className="rounded-2xl shadow-lg"
-          style={{ display: "none" }}
-        />
-        <canvas
-          ref={canvasRef}
-          width="640"
-          height="480"
-          className="rounded-2xl shadow-lg"
-        />
-        {feedback && (
-          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-black bg-opacity-50 text-white p-2 rounded-lg">
-            <p>{feedback}</p>
-          </div>
-        )}
-      </div>
-    </div>
+    <SidebarProvider
+      style={{
+        "--sidebar-width": "calc(var(--spacing) * 72)",
+        "--header-height": "calc(var(--spacing) * 12)",
+      }}
+    >
+      <AppSidebar variant="inset" />
+      <SidebarInset>
+        <SiteHeader title="Sports Coach" />
+        <div className="flex flex-1 flex-col p-4 md:p-6">
+          <Card>
+            <CardHeader className="flex flex-row items-center gap-4">
+              <Select value={sport} onValueChange={setSport}>
+                <SelectTrigger className="w-[180px]">
+                  <SelectValue placeholder="Select a sport" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="basketball">Basketball</SelectItem>
+                  <SelectItem value="tennis">Tennis</SelectItem>
+                  <SelectItem value="fitness">Fitness</SelectItem>
+                </SelectContent>
+              </Select>
+              <Button onClick={() => setCameraActive(!cameraActive)}>
+                {cameraActive ? "Turn Off Camera" : "Turn On Camera"}
+              </Button>
+            </CardHeader>
+            <CardContent>
+              <div className="relative w-full border aspect-video">
+                <video
+                  ref={videoRef}
+                  className="rounded-2xl shadow-lg absolute inset-0 w-full h-full"
+                  style={{ display: "none" }}
+                />
+                <canvas
+                  ref={canvasRef}
+                  className="rounded-2xl shadow-lg absolute inset-0 w-full h-full"
+                />
+                {feedback && (
+                  <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-black bg-opacity-50 text-white p-2 rounded-lg">
+                    <p>{feedback}</p>
+                  </div>
+                )}
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </SidebarInset>
+    </SidebarProvider>
   );
 };
 

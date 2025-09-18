@@ -1,3 +1,4 @@
+import Navbar from "@/components/Navbar";
 import { motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 
@@ -5,38 +6,41 @@ import { Link } from "react-router-dom";
 
 const Home = () => {
   return (
-    <section className="w-full min-h-screen flex items-center justify-center px-8 pt-22 md:pt-0">
-      <div className="grid grid-cols-1 md:grid-cols-2 items-center gap-8 max-w-6xl mx-auto w-full">
-        <div>
-          <span className="block mb-4 text-xs md:text-sm text-indigo-400 font-medium">
-            AI-powered creativity
-          </span>
-          <h3 className="text-4xl md:text-6xl font-semibold text-white">
-            Generate stunning images and videos with AI
-          </h3>
-          <p className="text-base md:text-lg text-neutral-300 my-4 md:my-6 max-w-lg">
-            Unleash your imagination! Instantly create unique visuals and videos
-            using advanced generative AI models. No design skills required—just
-            your ideas.
-          </p>
-          <div className="flex gap-4">
-            <Link
-              to="/create"
-              className="cursor-pointer bg-indigo-600 text-white font-medium py-2 px-4 rounded transition-all hover:bg-indigo-700 active:scale-95 flex items-center justify-center"
-            >
-              Start Generating
-            </Link>
-            <Link
-              to="/gallery"
-              className="cursor-pointer bg-neutral-800 text-white font-medium py-2 px-4 rounded transition-all border border-neutral-700 hover:bg-neutral-700 active:scale-95 flex items-center justify-center"
-            >
-              View Gallery
-            </Link>
+    <>
+      <Navbar />
+      <section className="w-full h-screen flex items-center justify-center px-8 md:pt-0 bg-background">
+        <div className="grid grid-cols-1 md:grid-cols-2 items-center gap-8 max-w-6xl mx-auto w-full">
+          <div>
+            <span className="inline-block mb-4 text-xs md:text-sm text-primary font-medium border border-dotted border-primary rounded-full px-3 py-1">
+              AI-powered activity
+            </span>
+            <h3 className="text-4xl md:text-6xl font-semibold text-foreground">
+              Your Personal AI Sports Companion
+            </h3>
+            <p className="text-base md:text-lg text-muted-foreground my-4 md:my-6 max-w-lg">
+              Elevate your performance! Get real-time insights, expert coaching,
+              and tailored training powered by advanced AI. Stay motivated and
+              achieve your goals with ease.
+            </p>
+            <div className="flex gap-4">
+              <Link
+                to="/dashboard"
+                className="cursor-pointer bg-[var(--chart-3)] text-primary-foreground font-medium py-2 px-4 rounded transition-all hover:bg-primary/90 active:scale-95 flex items-center justify-center"
+              >
+                Go to Dashboard
+              </Link>
+              <Link
+                to="/gallery"
+                className="cursor-pointer bg-secondary text-secondary-foreground font-medium py-2 px-4 rounded transition-all border border-border hover:bg-accent active:scale-95 flex items-center justify-center"
+              >
+                View Gallery
+              </Link>
+            </div>
           </div>
+          <ShuffleGrid />
         </div>
-        <ShuffleGrid />
-      </div>
-    </section>
+      </section>
+    </>
   );
 };
 
