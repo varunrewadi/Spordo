@@ -7,17 +7,7 @@ const SportsCoach = () => {
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
   const [sport, setSport] = useState("basketball");
-
-  // Native Web Speech API for TTS
-  const speak = (message) => {
-    if ("speechSynthesis" in window) {
-      const utterance = new SpeechSynthesisUtterance(message);
-      utterance.rate = 1; // adjust speed
-      utterance.pitch = 1; // adjust pitch
-      speechSynthesis.cancel(); // stop previous speech if still running
-      speechSynthesis.speak(utterance);
-    }
-  };
+  const [cameraActive, setCameraActive] = useState(false);
 
   useEffect(() => {
     const pose = new Pose({
@@ -68,8 +58,9 @@ const SportsCoach = () => {
       canvasCtx.restore();
     });
 
-    if (videoRef.current) {
-      const camera = new Camera(videoRef.current, {
+    let camera = null;
+    if (cameraActive && videoRef.current) {
+      camera = new Camera(videoRef.current, {
         onFrame: async () => {
           await pose.send({ image: videoRef.current });
         },
@@ -77,8 +68,31 @@ const SportsCoach = () => {
         height: 480,
       });
       camera.start();
+    } else {
+      if (videoRef.current && videoRef.current.srcObject) {
+        videoRef.current.srcObject.getTracks().forEach((track) => track.stop());
+      }
+      if (canvasRef.current) {
+        const canvasCtx = canvasRef.current.getContext("2d");
+        canvasCtx.clearRect(
+          0,
+          0,
+          canvasRef.current.width,
+          canvasRef.current.height
+        );
+      }
     }
-  }, [sport]);
+
+    return () => {
+      if (camera) {
+        camera.stop();
+      }
+      if (videoRef.current && videoRef.current.srcObject) {
+        videoRef.current.srcObject.getTracks().forEach((track) => track.stop());
+      }
+      pose.close();
+    };
+  }, [sport, cameraActive]);
 
   return (
     <div className="flex flex-col items-center p-4 space-y-4">
@@ -94,6 +108,13 @@ const SportsCoach = () => {
         <option value="tennis">Tennis</option>
         <option value="fitness">Fitness</option>
       </select>
+
+      <button
+        onClick={() => setCameraActive(!cameraActive)}
+        className="p-2 rounded-lg border bg-blue-500 text-white"
+      >
+        {cameraActive ? "Turn Off Camera" : "Turn On Camera"}
+      </button>
 
       {/* Video + Canvas */}
       <div className="relative">

@@ -8,8 +8,7 @@ const contactItem = { to: "/contact", label: "Contact" };
 const navItems = [
   { to: "/", label: "Home" },
   { to: "/sports-coach", label: "Sports Coach" },
-  { to: "/about", label: "About" },
-  { to: "/faqs", label: "FAQs" },
+  { to: "/dashboard", label: "Dashboard" },
 ];
 
 export default function Navbar() {

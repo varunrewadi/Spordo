@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 const Home = () => {
   return (
-    <section className="w-full flex items-center justify-center px-8 py-15">
+    <section className="w-full flex items-center justify-center h-screen">
       <div className="grid grid-cols-1 md:grid-cols-2 items-center gap-8 max-w-6xl mx-auto w-full">
         <div>
           <span className="block mb-4 text-xs md:text-sm text-indigo-400 font-medium">
