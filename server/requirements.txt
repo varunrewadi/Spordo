@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+websockets
+numpy
+opencv-python
+mediapipe
+google-generativeai
+gTTS
+python-dotenv

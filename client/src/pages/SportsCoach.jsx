@@ -8,6 +8,32 @@ const SportsCoach = () => {
   const canvasRef = useRef(null);
   const [sport, setSport] = useState("basketball");
   const [cameraActive, setCameraActive] = useState(false);
+  const [feedback, setFeedback] = useState("");
+  const ws = useRef(null);
+
+  useEffect(() => {
+    // Establish WebSocket connection when camera turns on
+    if (cameraActive) {
+      ws.current = new WebSocket("ws://localhost:8000/ws");
+      ws.current.onopen = () => console.log("WebSocket connected!");
+      ws.current.onclose = () => console.log("WebSocket disconnected.");
+      ws.current.onmessage = (event) => {
+        const data = JSON.parse(event.data);
+        if (data.type === "audio_feedback") {
+          setFeedback(data.message); // Display the text
+
+          // Play the audio
+          const audio = new Audio("data:audio/mpeg;base64," + data.audio);
+          audio.play();
+        }
+      };
+    } else {
+      ws.current?.close();
+    }
+
+    // Cleanup on component unmount
+    return () => ws.current?.close();
+  }, [cameraActive]);
 
   useEffect(() => {
     const pose = new Pose({
@@ -63,6 +89,11 @@ const SportsCoach = () => {
       camera = new Camera(videoRef.current, {
         onFrame: async () => {
           await pose.send({ image: videoRef.current });
+          if (ws.current && ws.current.readyState === WebSocket.OPEN) {
+            const canvas = canvasRef.current;
+            // Send a compressed JPEG image as a Base64 string
+            ws.current.send(canvas.toDataURL("image/jpeg", 0.7));
+          }
         },
         width: 640,
         height: 480,
@@ -129,7 +160,11 @@ const SportsCoach = () => {
           height="480"
           className="rounded-2xl shadow-lg"
         />
-        {/* ...existing code... (removed feedback display) */}
+        {feedback && (
+          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-black bg-opacity-50 text-white p-2 rounded-lg">
+            <p>{feedback}</p>
+          </div>
+        )}
       </div>
     </div>
   );
