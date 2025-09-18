@@ -5,19 +5,19 @@ import { Link } from "react-router-dom";
 
 const Home = () => {
   return (
-    <section className="w-full flex items-center justify-center h-screen">
+    <section className="w-full min-h-screen flex items-center justify-center px-8 pt-22 md:pt-0">
       <div className="grid grid-cols-1 md:grid-cols-2 items-center gap-8 max-w-6xl mx-auto w-full">
         <div>
           <span className="block mb-4 text-xs md:text-sm text-indigo-400 font-medium">
-            AI Sports Companion
+            AI-powered creativity
           </span>
           <h3 className="text-4xl md:text-6xl font-semibold text-white">
-            Your Personal AI Sports Companion
+            Generate stunning images and videos with AI
           </h3>
           <p className="text-base md:text-lg text-neutral-300 my-4 md:my-6 max-w-lg">
-            Elevate your game with real-time insights and personalized coaching.
-            Get expert advice, training plans, and motivation tailored to your
-            sport and goals—powered by advanced AI.
+            Unleash your imagination! Instantly create unique visuals and videos
+            using advanced generative AI models. No design skills required—just
+            your ideas.
           </p>
           <div className="flex gap-4">
             <Link
