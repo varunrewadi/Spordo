@@ -97,6 +97,7 @@ const SportsCoach = () => {
         drawLandmarks(canvasCtx, results.poseLandmarks, {
           color: "#FF0000",
           lineWidth: 2,
+          radius: 2.5, // Reduced radius for smaller points
         });
       }
       canvasCtx.restore();
